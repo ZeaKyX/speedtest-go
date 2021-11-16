@@ -38,9 +38,6 @@ func init() {
 func main() {
 	pflag.Parse()
 	conf := config.Load(*optConfig)
-func main() {
-	pflag.Parse()
-	conf := config.Load(*optConfig)
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			log.Warnf("No config file found in search paths, using default values")
