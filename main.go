@@ -38,7 +38,20 @@ func init() {
 func main() {
 	pflag.Parse()
 	conf := config.Load(*optConfig)
-	viper.Unmarshal(&conf)
+func main() {
+	pflag.Parse()
+	conf := config.Load(*optConfig)
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			log.Warnf("No config file found in search paths, using default values")
+		} else {
+			log.Fatalf("Error reading config: %s", err)
+		}
+	}
+
+	if err := viper.Unmarshal(&conf); err != nil {
+		log.Fatalf("Error parsing config: %s", err)
+	}
 	web.SetServerLocation(&conf)
 	results.Initialize(&conf)
 	database.SetDBInfo(&conf)
